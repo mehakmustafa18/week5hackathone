@@ -1,0 +1,405 @@
+.pageHeader {
+  background-color: #dbe4f4;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.pageTitleContainer {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.pageTitle {
+  color: #3b4b89;
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.titleUnderline {
+  height: 3px;
+  width: 80px;
+  background-color: #3b4b89;
+  margin: 0 auto;
+}
+
+.pageSubtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: #3b4b89;
+}
+
+.breadcrumb a {
+  color: #3b4b89;
+  text-decoration: none;
+}
+
+.breadcrumbSpan {
+  margin: 0 8px;
+  color: #6b7280;
+}
+
+.mainLayout {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 30px;
+}
+
+.contentArea {
+  flex: 1;
+}
+
+.topBar {
+  background-color: #3b4b89;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+.resultsText {
+  font-size: 14px;
+}
+
+.sortSelect {
+  background-color: white;
+  color: #3b4b89;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  outline: none;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.filterBox {
+  background-color: #3b4b89;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.filterHeader {
+  background-color: #4a5c9e;
+  padding: 16px 20px;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filterContent {
+  padding: 20px;
+}
+
+.filterInput {
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 10px 14px;
+  color: white;
+  margin-bottom: 16px;
+  font-size: 14px;
+  outline: none;
+}
+
+.filterInput::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.filterInput:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.sliderContainer {
+  margin-bottom: 24px;
+  margin-top: 10px;
+}
+
+.sliderTrack {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  position: relative;
+}
+
+.sliderFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: #f5c518;
+  border-radius: 3px;
+  width: 100%; /* max */
+}
+
+.sliderThumb {
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.filterBtn {
+  background-color: #f5c518;
+  color: #1a2e6e;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  width: 100%;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.filterBtn:hover {
+  background-color: #e0b010;
+}
+
+.priceRangeText {
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* Car Items */
+.carList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.carItem {
+  display: flex;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: white;
+  gap: 24px;
+  position: relative;
+}
+
+.carItemImageWrapper {
+  width: 240px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.carItemImage {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.itemBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 2px;
+}
+
+.carItemDetails {
+  flex: 1;
+}
+
+.carItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.carItemTitle {
+  font-size: 20px;
+  color: #1a2e6e;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-decoration: none;
+  display: block;
+}
+
+.carItemTitle:hover {
+  color: #3b4b89;
+}
+
+.starIconTopRight {
+  color: #9ca3af;
+  cursor: pointer;
+  background-color: #f3f4f6;
+  border-radius: 50%;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+  color: #f5c518;
+}
+
+.carItemDesc {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.carItemStats {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 20px;
+}
+
+.statBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statValue {
+  font-size: 16px;
+  font-weight: 700;
+  color: #3b4b89;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.itemSubmitBtns {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.submitBidBtnLine {
+  flex: 1;
+  text-align: center;
+  border: 1px solid #3b4b89;
+  color: #3b4b89;
+  padding: 10px 0;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.submitBidBtnLine:hover {
+  background-color: #3b4b89;
+  color: white;
+}
+
+.viewDetailsLink {
+  font-size: 12px;
+  color: #3b4b89;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 40px;
+}
+
+.pageBtn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e5e7eb;
+  background-color: white;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pageBtn:hover {
+  border-color: #3b4b89;
+  color: #3b4b89;
+}
+
+.pageBtn.activePage {
+  background-color: #3b4b89;
+  color: white;
+  border-color: #3b4b89;
+}
+
+@media (max-width: 768px) {
+  .mainLayout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+  }
+  .carItem {
+    flex-direction: column;
+  }
+  .carItemImageWrapper {
+    width: 100%;
+  }
+  .carItemImage {
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+  .carItemStats {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .statBlock > div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px !important;
+  }
+  .topBar {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .pageTitle {
+    font-size: 32px;
+  }
+}

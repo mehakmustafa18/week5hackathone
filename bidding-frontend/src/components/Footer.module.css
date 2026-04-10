@@ -1,0 +1,155 @@
+.footer {
+  background-color: #3b4b89; /* Adjusted for Screenshot styling (lighter navy) */
+  color: white;
+  margin-top: 50px;
+}
+
+.footerContainer {
+  margin: 0 auto;
+  padding: 60px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 40px;
+}
+
+@media (max-width: 768px) {
+  .footerContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+.logoIcon {
+  width: 40px;
+  height: 40px;
+  background-color: #f5c518;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a2e6e;
+}
+
+.logoText {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.logoHighlight {
+  color: #00d27a; /* In footer it has greenish hue in SS maybe */
+}
+
+.description {
+  color: #a0aec0;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.socialTitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: white;
+}
+
+.socialIcons {
+  display: flex;
+  gap: 12px;
+}
+
+.socialIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.socialIcon:hover {
+  opacity: 0.8;
+}
+
+.columnTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.linkListItem {
+  text-decoration: none;
+  color: #a0aec0;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.linkListItem:hover {
+  color: white;
+}
+
+.contactList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.contactIcon {
+  color: white;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.contactLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.contactText {
+  color: #a0aec0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.bottomBar {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px 0;
+  text-align: center;
+  font-size: 13px;
+  color: #a0aec0;
+}
+
+.bottomBar a {
+  color: white;
+  text-decoration: underline;
+}
