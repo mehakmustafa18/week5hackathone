@@ -1,26 +1,26 @@
 import { Controller, Get, Post, Body, Param, Query, UseGuards, Req, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import 'multer';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { CarsService } from './cars.service';
+import { AuctionsService } from './auctions.service';
 import { JwtAuthGuard } from '../authentication/jwt-auth.guard';
 
 @Controller('cars')
-export class CarsController {
-  constructor(private readonly carsService: CarsService) { }
+export class AuctionsController {
+  constructor(private readonly auctionsService: AuctionsService) { }
 
   @Get()
   async findAll(@Query() query: any) {
-    return this.carsService.findAll(query);
+    return this.auctionsService.findAll(query);
   }
 
   @Get('metadata')
   async getMetadata() {
-    return this.carsService.getMetadata();
+    return this.auctionsService.getMetadata();
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.carsService.findOne(id);
+    return this.auctionsService.findOne(id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -31,6 +31,6 @@ export class CarsController {
     @UploadedFiles() files: Array<Express.Multer.File>,
     @Req() req: any,
   ) {
-    return this.carsService.createCar(carData, req.user._id, files);
+    return this.auctionsService.createCar(carData, req.user._id, files);
   }
 }

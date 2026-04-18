@@ -7,7 +7,7 @@ import { Car } from '../schemas/car.schema';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Injectable()
-export class CarsService {
+export class AuctionsService {
   constructor(
     @InjectModel('Car') private carModel: Model<Car>,
     private cloudinaryService: CloudinaryService,

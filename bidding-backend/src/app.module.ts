@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './authentication/auth.module';
-import { CarsModule } from './cars/cars.module';
+import { AuctionsModule } from './auctions/auctions.module';
 import { BidsModule } from './bids/bids.module';
 import { PaymentsModule } from './payments/payments.module';
 import { ProfileModule } from './profile/profile.module';
@@ -25,7 +25,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     }),
 
     AuthModule,
-    CarsModule,
+    AuctionsModule,
     BidsModule,
     PaymentsModule,
     ProfileModule,
