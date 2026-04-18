@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { BidsModule } from '../bids/bids.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuctionsService } from './auctions.service';
-import { AuctionsController } from './auctions.controller';
+import { ListingsService } from './listings.service';
+import { ListingsController } from './listings.controller';
 import { CarSchema } from '../schemas/car.schema';
 import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 
@@ -12,7 +12,7 @@ import { CloudinaryModule } from '../cloudinary/cloudinary.module';
     CloudinaryModule,
     BidsModule,
   ],
-  controllers: [AuctionsController],
-  providers: [AuctionsService],
+  controllers: [ListingsController],
+  providers: [ListingsService],
 })
-export class AuctionsModule {}
+export class ListingsModule {}
