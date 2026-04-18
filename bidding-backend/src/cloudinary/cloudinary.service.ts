@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import { UploadApiResponse, UploadApiErrorResponse } from 'cloudinary';
 import * as streamifier from 'streamifier'; // Alternative is using Node's stream.Readable.from(file.buffer)

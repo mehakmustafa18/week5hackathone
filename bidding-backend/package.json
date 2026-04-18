@@ -45,6 +45,7 @@
     "streamifier": "^0.1.1",
     "@nestjs/cli": "^11.0.18",
     "@nestjs/schematics": "^11.0.0",
+    "@types/multer": "^2.1.0",
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
@@ -55,7 +56,6 @@
     "@nestjs/testing": "^11.0.1",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
-    "@types/multer": "^2.1.0",
     "@types/node": "^24.0.0",
     "@types/streamifier": "^0.1.2",
     "@types/supertest": "^7.0.0",
