@@ -3,11 +3,11 @@ import 'multer';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Car } from '../schemas/car.schema';
-import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { Car } from './schemas/car.schema';
+import { CloudinaryService } from './cloudinary/cloudinary.service';
 
 @Injectable()
-export class ProductAuctionsService {
+export class AuctionService {
   constructor(
     @InjectModel('Car') private carModel: Model<Car>,
     private cloudinaryService: CloudinaryService,
