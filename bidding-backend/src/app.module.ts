@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './authentication/auth.module';
-import { ListingsModule } from './listings/listings.module';
+import { ListingsModule } from './listings.module';
 import { BidsModule } from './bids/bids.module';
 import { PaymentsModule } from './payments/payments.module';
 import { ProfileModule } from './profile/profile.module';

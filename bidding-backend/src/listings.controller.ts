@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Query, UseGuards, Req, UseIntercept
 import 'multer';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ListingsService } from './listings.service';
-import { JwtAuthGuard } from '../authentication/jwt-auth.guard';
+import { JwtAuthGuard } from './authentication/jwt-auth.guard';
 
 @Controller('cars')
 export class ListingsController {
