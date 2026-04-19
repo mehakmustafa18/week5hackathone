@@ -137,7 +137,11 @@ export default function Navbar() {
                                 n.type === 'AUCTION_LOST' ? '#dc2626' : 
                                 n.type === 'AUCTION_ENDED' ? '#7c3aed' :
                                 n.type === 'PAYMENT_COMPLETE' ? '#059669' :
-                                n.type === 'STATUS_UPDATE' ? '#0284c7' : undefined
+                                n.type === 'PAYMENT_REQUIRED' ? '#d97706' :
+                                n.type === 'BID_LOST' ? '#ef4444' :
+                                n.type?.startsWith('STATUS_UPDATE_SHIPPED') ? '#2563eb' :
+                                n.type?.startsWith('STATUS_UPDATE_DELIVERED') ? '#22c55e' :
+                                n.type?.startsWith('STATUS_UPDATE_') ? '#0284c7' : '#3b4b89'
                             }}></div>
                             <p>{n.message}</p>
                           </div>

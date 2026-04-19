@@ -1,34 +1,30 @@
+/* ============ PAGE HEADER ============ */
 .pageHeader {
   background-color: #dbe4f4;
   padding: 60px 20px;
   text-align: center;
 }
-
 .pageTitleContainer {
   display: inline-block;
   margin-bottom: 20px;
 }
-
 .pageTitle {
   color: #3b4b89;
   font-size: 42px;
   font-weight: 700;
   margin-bottom: 8px;
 }
-
 .titleUnderline {
   height: 3px;
   width: 120px;
   background-color: #3b4b89;
   margin: 0 auto;
 }
-
 .pageSubtitle {
   color: #6b7280;
   font-size: 14px;
   margin-bottom: 30px;
 }
-
 .breadcrumb {
   font-size: 13px;
   color: #3b4b89;
@@ -37,23 +33,21 @@
   padding: 4px 12px;
   border-radius: 4px;
 }
-
 .breadcrumb a {
   color: #3b4b89;
   text-decoration: none;
 }
-
 .breadcrumbSpan {
   margin: 0 8px;
   color: #6b7280;
 }
 
+/* ============ MAIN LAYOUT ============ */
 .mainLayout {
   max-width: 1200px;
   margin: 40px auto;
   padding: 0 20px;
 }
-
 .carHeaderBar {
   background-color: #3b4b89;
   color: white;
@@ -64,19 +58,18 @@
   border-radius: 4px;
   margin-bottom: 20px;
 }
-
 .carHeaderTitle {
   font-size: 18px;
   font-weight: 600;
 }
 
+/* ============ GALLERY ============ */
 .galleryArea {
   display: flex;
   gap: 16px;
   margin-bottom: 24px;
-  height: 480px;
+  height: 420px;
 }
-
 .mainImageWrapper {
   flex: 2;
   position: relative;
@@ -84,374 +77,348 @@
   border-radius: 4px;
   overflow: hidden;
 }
-
 .mainImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
 .liveTag {
   position: absolute;
   top: 16px;
   left: 16px;
-  background-color: #ef4444;
+  background-color: #3b4b89;
   color: white;
-  padding: 4px 8px;
+  padding: 4px 10px;
   border-radius: 2px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 1px;
   z-index: 10;
 }
-
 .thumbnailsArea {
   flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 16px;
+  gap: 12px;
 }
-
 .thumbnailWrapper {
   background-color: #f3f4f6;
   border-radius: 4px;
   overflow: hidden;
-  height: 100%;
 }
-
 .thumbnailImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+/* ============ STATS STRIP ============ */
 .statsStrip {
   display: flex;
   justify-content: space-between;
   background-color: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 4px;
-  padding: 24px 30px;
-  margin-bottom: 40px;
+  padding: 20px 30px;
+  margin-bottom: 0;
 }
-
 .statItem {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-
 .statValue {
   font-size: 14px;
   font-weight: 700;
   color: #1a2e6e;
 }
-
 .statLabel {
-  font-size: 12px;
+  font-size: 11px;
   color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.timerBoxes {
-  display: flex;
-  gap: 4px;
-}
-
-.timerBox {
-  background-color: white;
-  border: 1px solid #e2e8f0;
-  padding: 4px 6px;
-  font-weight: 600;
-  font-size: 13px;
-  color: #1a2e6e;
-  border-radius: 2px;
-}
-
-/* Two columns details */
-.detailsLayout {
-  display: flex;
-  gap: 40px;
-}
-
-.leftColumn {
-  flex: 2;
-}
-
-.rightColumn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.sectionTitle {
-  font-size: 18px;
-  font-weight: 700;
-  color: #3b4b89;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 10px;
-}
-
-.descriptionText {
-  color: #6b7280;
-  font-size: 14px;
-  line-height: 1.7;
-  margin-bottom: 20px;
-}
-
-.boxHeader {
-  background-color: #3b4b89;
-  color: white;
-  padding: 14px 20px;
-  font-weight: 600;
-  font-size: 15px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-
-.boxContent {
-  background-color: #f8fafc;
-  padding: 24px;
-  border: 1px solid #e2e8f0;
-  border-top: none;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
-.bidderProfile {
-  display: flex;
-  gap: 24px;
-  align-items: center;
-}
-
-.bidderAvatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #e2e8f0;
-}
-
-.bidderInfoGrid {
-  flex: 1;
-  display: grid;
-  grid-template-columns: auto 1fr auto 1fr;
-  row-gap: 16px;
-  column-gap: 24px;
-  align-items: center;
-}
-
-.infoLabel {
-  font-size: 13px;
-  color: #1a2e6e;
-  font-weight: 600;
-}
-
-.infoValue {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-/* Right Column Widgets */
-.bidWidget {
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 4px;
-  padding: 24px;
-}
-
-.bidHeader {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.bidVal {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1a2e6e;
-  margin-bottom: 4px;
-}
-
-.biddersList {
-  display: flex;
-  flex-direction: column;
-}
-
-.bidderRow {
-  display: flex;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.bidderRowLabel {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.bidderRowValue {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1a2e6e;
-}
-
-/* ==== PAYMENT STEPS SECTION ==== */
+/* ============ PAYMENT SECTION ============ */
 .paymentSectionWrapper {
-  margin-top: 60px;
   max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 20px;
+  margin: 60px auto;
+  padding: 0 20px 80px;
 }
-
 .paymentSectionTitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1a1a1a;
-  text-align: center;
-  margin-bottom: 40px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a2e6e;
+  margin-bottom: 32px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e2e8f0;
 }
-
 .paymentLayout {
   display: flex;
   gap: 40px;
+  align-items: flex-start;
 }
 
+/* ============ LEFT CARDS ============ */
 .paymentLeft {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
+.paymentRowBox {
+  background-color: #eef2fb;
+  border: 1px solid #d6dfef;
+  border-radius: 6px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  transition: box-shadow 0.2s;
+}
+.paymentRowBox:hover {
+  box-shadow: 0 2px 12px rgba(59, 75, 137, 0.1);
+}
+.paymentRowItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.dateText {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a2e6e;
+}
+.timeText {
+  font-size: 14px;
+  font-weight: 700;
+  color: #3b4b89;
+}
+.priceText {
+  font-size: 15px;
+  font-weight: 700;
+  color: #22c55e;
+}
+.lotText {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a2e6e;
+}
+.subLabel {
+  font-size: 11px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
 
+/* ============ RIGHT: TRACKER ============ */
 .paymentRight {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  padding: 20px 40px;
+  gap: 24px;
 }
 
-.paymentRowBox {
-  background-color: #f8fafc;
+/* Tracker Card — matches the image */
+.trackerCard {
+  background-color: #ffffff;
   border: 1px solid #e2e8f0;
-  padding: 20px;
-  border-radius: 4px;
+  border-radius: 8px;
+  padding: 24px 28px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+.trackerDates {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  margin-bottom: 20px;
 }
-
-.paymentRowBox p {
-  font-size: 13px;
-}
-
-.dateText {
-  color: #6b7280;
-  margin-bottom: 6px;
-}
-
-.phaseText {
-  font-weight: 600;
-  color: #3b4b89;
-}
-
-.priceText {
-  color: #22c55e;
+.trackerDateVal {
+  font-size: 14px;
   font-weight: 700;
-  font-size: 15px;
-  margin-bottom: 6px;
+  color: #1a2e6e;
+  margin-bottom: 3px;
 }
-
-.lotText {
-  font-weight: 700;
-  color: #3b4b89;
-  font-size: 15px;
-  margin-bottom: 6px;
-}
-
-.subLabel {
-  color: #6b7280;
+.trackerDateLabel {
   font-size: 11px;
-}
-
-/* Timeline */
-.timelineItem {
-  position: relative;
-}
-
-.timelineDates {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.tlDatePrimary {
   color: #6b7280;
-  font-size: 13px;
-  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
-.tlDateSecondary {
-  color: #9ca3af;
-  font-size: 12px;
+/* Horizontal progress bar row */
+.progressBar {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
 }
-
-.timelineBar {
-  height: 4px;
-  background-color: #e2e8f0;
-  position: relative;
+.progressStep {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.progressDotWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.progressDot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+.progressDotDone {
+  background-color: #22c55e;
+  border: 2px solid #22c55e;
+}
+.progressDotPending {
+  background-color: #ffffff;
+  border: 2px solid #d1d5db;
+}
+.progressLine {
+  flex: 1;
+  height: 3px;
+  background-color: #e5e7eb;
   border-radius: 2px;
-  margin-bottom: 8px;
+  overflow: hidden;
+  margin: 0 2px;
 }
-
-.timelineBarFill {
+.progressLineFill {
   height: 100%;
   background-color: #22c55e;
   border-radius: 2px;
+  transition: width 0.5s ease;
 }
-
-.timelineDot {
-  width: 12px;
-  height: 12px;
-  background-color: #22c55e;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 2px solid white;
-  box-shadow: 0 0 0 1px #22c55e;
-}
-
-.timelineDotEnd {
-  right: 0;
-  background-color: white;
-  border: 2px solid #e2e8f0;
-  box-shadow: none;
-}
-
-.timelineLabels {
-  display: flex;
-  justify-content: space-between;
-}
-
-.tlLabelPrimary {
-  color: #22c55e;
-  font-size: 14px;
+.progressLabel {
+  font-size: 12px;
   font-weight: 600;
-}
-
-.tlLabelSecondary {
   color: #9ca3af;
-  font-size: 13px;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+.progressLabelDone {
+  color: #22c55e;
 }
 
+/* Bidding ended */
 .biddingEndedText {
   color: #ef4444;
   font-weight: 700;
-  text-align: center;
   font-size: 15px;
-  margin-top: 20px;
+  text-align: center;
+  padding: 12px;
+}
+
+/* ============ SELLER CONTROLS ============ */
+.sellerControls {
+  background: #0f172a;
+  border-radius: 8px;
+  padding: 20px 24px;
+  border: 1px solid #1e293b;
+}
+.sellerControlsTitle {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.sellerBtnRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sellerBtn {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: 2px solid #334155;
+  background: #1e293b;
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.sellerBtn:hover:not(:disabled) {
+  border-color: #3b4b89;
+  background: #253454;
+}
+.sellerBtnActive {
+  border-color: #f5c518 !important;
+  background: #f5c518 !important;
+  color: #1a2e6e !important;
+  cursor: not-allowed;
+}
+.sellerBtn:disabled:not(.sellerBtnActive) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============ WINNER PANEL ============ */
+.winnerPanel {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.winnerPanelHeader {
+  background-color: #3b4b89;
+  color: white;
+  padding: 14px 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.winnerPanelBody {
+  background-color: #f8fafc;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.winnerInfoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.winnerInfoRow:last-child {
+  border-bottom: none;
+}
+.winnerInfoLabel {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+}
+.winnerInfoValue {
+  font-size: 13px;
+  color: #1a2e6e;
+  font-weight: 600;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .paymentLayout {
+    flex-direction: column;
+  }
+  .galleryArea {
+    flex-direction: column;
+    height: auto;
+  }
+  .thumbnailsArea {
+    height: 200px;
+  }
+  .statsStrip {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .progressBar {
+    gap: 0;
+  }
 }

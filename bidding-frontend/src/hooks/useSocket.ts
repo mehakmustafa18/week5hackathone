@@ -36,25 +36,40 @@ function getSocket(): Socket {
       // 1. If notification is targeted to a specific user, only show to that user
       if (data.forUserId) {
         const userStr = localStorage.getItem('user');
-        if (!userStr) return;
+        if (!userStr) {
+          console.warn('Notification received with forUserId but no user in localStorage');
+          return;
+        }
         try {
-          const user = JSON.parse(userStr);
-          const currentUserId = (user._id || user.id || '').toString();
-          const targetUserId = data.forUserId.toString();
-          if (currentUserId !== targetUserId) return; // Not for this user, skip
-        } catch {
+          const userData = JSON.parse(userStr);
+          // Standardize everything to trimmed lowercase hex string
+          const currentUserId = (userData._id || userData.id || '').toString().trim().toLowerCase();
+          const targetUserId = data.forUserId.toString().trim().toLowerCase();
+          
+          if (currentUserId !== targetUserId) {
+             return; 
+          }
+          console.log('✅ Real-time Notification matched for this user:', data.type);
+        } catch (e) {
+          console.error('Error parsing user for notification check', e);
           return;
         }
       }
 
-      // 2. Prevent duplicate notifications (same type + carId already stored)
+      // 2. Prevent duplicate notifications (only if exactly same message and carId in last 2 seconds)
       const existingRaw = localStorage.getItem('notifications');
       const existing: any[] = existingRaw ? JSON.parse(existingRaw) : [];
+      
+      // We'll relax this significantly to allow multiple bids or status updates
+      // Only skip if the exact message was sent in the last 10 seconds (basic debounce)
       const isDuplicate = existing.some(
-        (n) => n.type === data.type && n.carId?.toString() === data.carId?.toString()
+        (n) => n.message === data.message && 
+               n.carId?.toString() === data.carId?.toString() &&
+               (Date.now() - new Date(n.timestamp).getTime() < 10000)
       );
-      if (isDuplicate) {
-        console.log('Skipping duplicate notification:', data.type, data.carId);
+      
+      if (isDuplicate && data.type !== 'NEW_BID') { 
+        console.log('Skipping duplicate notification:', data.type);
         return;
       }
 

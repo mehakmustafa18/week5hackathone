@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { Module, Injectable, BadRequestException, ConflictException, UnauthorizedException, ForbiddenException, Controller, Get, Post, Body, Param, Query, UseGuards, Req, UseInterceptors, UploadedFiles, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Module, Injectable, BadRequestException, ConflictException, UnauthorizedException, ForbiddenException, Controller, Get, Post, Patch, Body, Param, Query, UseGuards, Req, UseInterceptors, UploadedFiles, CanActivate, ExecutionContext } from '@nestjs/common';
 import { MongooseModule, InjectModel, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EventEmitterModule, EventEmitter2, OnEvent } from '@nestjs/event-emitter';
@@ -91,20 +91,56 @@ export class AuthService {
 
 @Injectable()
 export class BidsService {
-  constructor(@InjectModel('Bid') private bidModel: Model<Bid>, @InjectModel('Car') private carModel: Model<Car>, private eventEmitter: EventEmitter2) {}
+  constructor(
+    @InjectModel('Bid') private bidModel: Model<Bid>, 
+    @InjectModel('Car') private carModel: Model<Car>, 
+    private eventEmitter: EventEmitter2
+  ) {}
+
   async placeBid(carId: string, userId: string, amount: number) {
-    const car = await this.carModel.findById(carId);
+    const carObjectId = new Types.ObjectId(carId);
+    const userObjectId = new Types.ObjectId(userId.toString());
+
+    const car = await this.carModel.findById(carObjectId);
     if (!car) throw new BadRequestException('Car not found');
-    if (car.sellerId.toString() === userId) throw new BadRequestException('You cannot bid on your own car');
+    if (car.status !== 'active') throw new BadRequestException('Auction has ended');
+    if (car.sellerId.toString() === userId.toString()) throw new BadRequestException('You cannot bid on your own car');
     if (amount <= car.currentBid) throw new BadRequestException('Bid must be higher than current bid');
-    const savedBid = await new this.bidModel({ carId, userId, amount }).save();
+    
+    // Find previous high bidder to notify them they were outbid
+    const prevBid = await this.bidModel.findOne({ carId: carObjectId }).sort({ amount: -1 }).exec();
+    
+    // Save bid with explicit ObjectId types so the DB stores them consistently
+    const savedBid = await new this.bidModel({ carId: carObjectId, userId: userObjectId, amount }).save();
     car.currentBid = amount;
     await car.save();
-    this.eventEmitter.emit('bid.placed', { type: 'NEW_BID', message: `New bid of $${amount} placed on ${car.make} ${car.modelName}!`, carId: car._id, amount });
+    
+    // 1. Notify everyone about the new bid
+    this.eventEmitter.emit('bid.placed', { 
+      type: 'NEW_BID', 
+      message: `New bid of $${amount} placed on ${car.make} ${car.modelName}!`, 
+      carId: car._id.toString(), 
+      amount 
+    });
+
+    // 2. Notify previous bidder specifically that they were outbid
+    if (prevBid && prevBid.userId.toString() !== userId.toString()) {
+      this.eventEmitter.emit('bid.outbid', {
+        type: 'BID_LOST',
+        message: `You have been outbid on ${car.make} ${car.modelName}. New bid is $${amount}.`,
+        carId: car._id.toString(),
+        forUserId: prevBid.userId.toString()
+      });
+    }
+
     return await savedBid.populate('userId', 'name email phone profilePicture username');
   }
-  async getBidsForCar(carId: string) { return await this.bidModel.find({ carId }).sort({ amount: -1 }).populate('userId', 'name email phone profilePicture username').limit(10).exec(); }
+
+  async getBidsForCar(carId: string) { 
+    return await this.bidModel.find({ carId: new Types.ObjectId(carId) }).sort({ amount: -1 }).populate('userId', 'name email phone profilePicture username').limit(10).exec(); 
+  }
 }
+
 
 // ==========================================
 // 3. GATEWAY
@@ -114,8 +150,13 @@ export class BidsService {
 export class BidsGateway {
   @WebSocketServer() server: Server;
   constructor(private readonly bidsService: BidsService) {}
-  @OnEvent('bid.placed') handleBidPlaced(p: any) { this.server.emit('notification', p); }
-  @OnEvent('car.created') handleCarCreated(p: any) { this.server.emit('notification', p); }
+  @OnEvent('bid.placed') handleBidPlaced(p: any) { console.log('Relaying bid.placed:', p.type); this.server.emit('notification', p); }
+  @OnEvent('bid.outbid') handleBidOutbid(p: any) { console.log('Relaying bid.outbid to:', p.forUserId); this.server.emit('notification', p); }
+  @OnEvent('car.created') handleCarCreated(p: any) { console.log('Relaying car.created'); this.server.emit('notification', p); }
+  @OnEvent('auction.ended') handleAuctionEnded(p: any) { console.log('Relaying auction.ended'); this.server.emit('notification', p); }
+  @OnEvent('auction.won') handleAuctionWon(p: any) { console.log('Relaying auction.won to:', p.forUserId); this.server.emit('notification', p); }
+  @OnEvent('auction.lost') handleAuctionLost(p: any) { console.log('Relaying auction.lost to:', p.forUserId); this.server.emit('notification', p); }
+  @OnEvent('payment.received') handlePaymentReceived(p: any) { console.log('Relaying payment.received to:', p.forUserId); this.server.emit('notification', p); }
   @SubscribeMessage('joinAuction') handleJoinAuction(@MessageBody() carId: string, @ConnectedSocket() client: Socket) { client.join(`auction_${carId}`); }
   @SubscribeMessage('placeBid') async handlePlaceBid(@MessageBody() d: any, @ConnectedSocket() client: Socket) {
     try {
@@ -133,15 +174,122 @@ export class BidsGateway {
 
 @Injectable()
 export class AuctionService {
-  constructor(@InjectModel('Car') private carModel: Model<Car>, private cloudinaryService: CloudinaryService, private eventEmitter: EventEmitter2) { }
+  constructor(
+    @InjectModel('Car') private carModel: Model<Car>, 
+    @InjectModel('Bid') private bidModel: Model<Bid>,
+    private cloudinaryService: CloudinaryService, 
+    private bidsGateway: BidsGateway
+  ) { }
+
+  async onModuleInit() {
+    // Check for ended auctions every 30 seconds (more frequent)
+    console.log('Auction termination worker started.');
+    setInterval(() => this.checkEndedAuctions(), 30000);
+  }
+
+  async checkEndedAuctions() {
+    try {
+      const expiredCars = await this.carModel.find({ 
+        status: 'active', 
+        endTime: { $lte: new Date() } 
+      }).exec();
+
+      if (expiredCars.length > 0) {
+        console.log(`Found ${expiredCars.length} expired auctions.`);
+      }
+
+      for (const car of expiredCars) {
+        car.status = 'ended';
+        await car.save();
+
+        const carObjectId = new Types.ObjectId(car._id.toString());
+        console.log(`[AUCTION END] Car: ${car.make} ${car.modelName} | ID: ${carObjectId} | Seller: ${car.sellerId.toString()}`);
+
+        // 1. Notify all users the auction has ended (global)
+        this.bidsGateway.sendNotification(null, 'notification', {
+          type: 'AUCTION_ENDED',
+          message: `Auction for ${car.make} ${car.modelName} has ended!`,
+          carId: car._id.toString()
+        });
+
+        // Find the winner and all bidders using explicit ObjectId
+        const topBid = await this.bidModel.findOne({ carId: carObjectId }).sort({ amount: -1 }).exec();
+        const allBidderIds = await this.bidModel.find({ carId: carObjectId }).distinct('userId').exec();
+
+        console.log(`[AUCTION END] Top bid: ${topBid ? topBid.amount : 'NONE'} | Bidder count: ${allBidderIds.length}`);
+
+        if (topBid) {
+          const winnerId = topBid.userId.toString();
+          const sellerId = car.sellerId.toString();
+
+          console.log(`[AUCTION WIN] Winner ID: ${winnerId} | Seller ID: ${sellerId}`);
+
+          // 2. Notify the winner specifically
+          this.bidsGateway.sendNotification(null, 'notification', {
+            type: 'AUCTION_WIN',
+            message: `🏆 Congratulations! You won the auction for ${car.make} ${car.modelName} at $${topBid.amount}!`,
+            carId: car._id.toString(),
+            forUserId: winnerId
+          });
+
+          // 2b. Immediately follow up with payment reminder to winner
+          setTimeout(() => {
+            this.bidsGateway.sendNotification(null, 'notification', {
+              type: 'PAYMENT_REQUIRED',
+              message: `💳 Please complete your payment for ${car.make} ${car.modelName} to proceed with delivery!`,
+              carId: car._id.toString(),
+              forUserId: winnerId
+            });
+          }, 3000);
+
+          // 3. Notify the seller specifically
+          this.bidsGateway.sendNotification(null, 'notification', {
+            type: 'AUCTION_ENDED',
+            message: `Your auction for ${car.make} ${car.modelName} has ended. The winning bid was $${topBid.amount}. Winner ID: ${winnerId}`,
+            carId: car._id.toString(),
+            forUserId: sellerId
+          });
+
+          // 4. Notify all other bidders that they lost
+          const otherBidders = (allBidderIds as any[]).filter(id => id.toString() !== winnerId);
+          for (const rawLoserId of otherBidders) {
+            const loserId = rawLoserId.toString();
+            console.log(`[AUCTION LOST] Notifying loser: ${loserId}`);
+            this.bidsGateway.sendNotification(null, 'notification', {
+              type: 'AUCTION_LOST',
+              message: `The auction for ${car.make} ${car.modelName} has ended. Unfortunately, you did not win this time.`,
+              carId: car._id.toString(),
+              forUserId: loserId
+            });
+          }
+        } else {
+          // No bids case
+          console.log(`[AUCTION END] No bids found for car ${car._id}. Notifying seller.`);
+          this.bidsGateway.sendNotification(null, 'notification', {
+            type: 'AUCTION_ENDED',
+            message: `Your auction for ${car.make} ${car.modelName} has ended with no bids.`,
+            carId: car._id.toString(),
+            forUserId: car.sellerId.toString()
+          });
+        }
+      }
+    } catch (err) {
+      console.error('Error in checkEndedAuctions:', err);
+    }
+  }
+
+
+
   async createCar(carData: any, userId: string, files?: Array<Express.Multer.File>) {
     let imageUrls: string[] = [];
     if (files?.length) {
-      const results = await Promise.all(files.map(file => this.cloudinaryService.uploadImage(file)));
-      imageUrls = results.map(result => (result as any).secure_url);
+       try {
+        const results = await Promise.all(files.map(file => this.cloudinaryService.uploadImage(file)));
+        imageUrls = results.map(result => (result as any).secure_url);
+       } catch (e) { console.error('Cloudinary upload failed:', e); }
     }
     const newCar = await new this.carModel({ ...carData, year: Number(carData.year), basePrice: Number(carData.basePrice), images: imageUrls.filter(u => u), sellerId: userId, currentBid: Number(carData.basePrice), endTime: new Date(carData.endTime) }).save();
-    this.eventEmitter.emit('car.created', { type: 'NEW_CAR', message: `New car ${carData.make} ${carData.modelName} just added!`, carId: newCar._id });
+    this.bidsGateway.sendNotification(null, 'notification', { type: 'NEW_CAR', message: `New car ${carData.make} ${carData.modelName} just added!`, carId: newCar._id.toString() });
     return newCar;
   }
   async findAll(query: any) {
@@ -189,7 +337,25 @@ export class PaymentsService {
     if (topBid?.userId.toString() !== userId) throw new BadRequestException('Only the winner can pay');
     car.status = 'sold';
     await car.save();
-    this.bidsGateway.sendNotification(null, 'notification', { type: 'STATUS_UPDATE_SOLD', message: `Great news! Your payment for ${car.make} is complete!`, carId: car._id, forUserId: userId });
+    
+    // Notify Winner
+    console.log(`Notifying winner of payment: ${userId.toString()}`);
+    this.bidsGateway.sendNotification(null, 'notification', { 
+      type: 'PAYMENT_COMPLETE', 
+      message: `Great news! Your payment for ${car.make} ${car.modelName} is complete!`, 
+      carId: car._id.toString(), 
+      forUserId: userId.toString() 
+    });
+
+    // Notify Seller
+    console.log(`Notifying seller of payment: ${car.sellerId.toString()}`);
+    this.bidsGateway.sendNotification(null, 'notification', {
+      type: 'PAYMENT_COMPLETE', // Using same type for bell styling
+      message: `Payment received! You have successfully sold your ${car.make} ${car.modelName}.`,
+      carId: car._id.toString(),
+      forUserId: car.sellerId.toString()
+    });
+
     return { message: 'Payment successful.', status: 'sold' };
   }
   async getPaymentDetails(carId: string) { return await this.carModel.findById(carId).populate('sellerId', 'name email').exec(); }
@@ -199,7 +365,42 @@ export class PaymentsService {
     car.status = status;
     await car.save();
     const topBid = await this.bidModel.findOne({ carId }).sort({ amount: -1 }).exec();
-    this.bidsGateway.sendNotification(null, 'notification', { type: `STATUS_UPDATE_${status.toUpperCase()}`, message: `Status updated to ${status}`, carId: car._id, forUserId: topBid?.userId.toString() });
+    const winnerId = topBid?.userId?.toString();
+
+    // Build a human-friendly message per status step
+    const statusMessages: Record<string, string> = {
+      sold: `✅ Payment confirmed! Your ${car.make} ${car.modelName} is being prepared for shipment.`,
+      shipped: `🚚 Your ${car.make} ${car.modelName} is on its way! It has been shipped and is in transit.`,
+      delivered: `📬 Your ${car.make} ${car.modelName} has been delivered! Enjoy your new car! 🎉`,
+      completed: `🏁 Transaction for ${car.make} ${car.modelName} is fully completed. Thank you!`,
+    };
+    const message = statusMessages[status] || `Status updated to ${status} for ${car.make} ${car.modelName}.`;
+
+    // Notify the winner about delivery progress via bell notification
+    if (winnerId) {
+      this.bidsGateway.sendNotification(null, 'notification', {
+        type: `STATUS_UPDATE_${status.toUpperCase()}`,
+        message,
+        carId: car._id.toString(),
+        forUserId: winnerId
+      });
+    }
+
+    // Also notify the seller for their own records
+    this.bidsGateway.sendNotification(null, 'notification', {
+      type: `STATUS_UPDATE_${status.toUpperCase()}`,
+      message: `📦 You marked ${car.make} ${car.modelName} as "${status}". The buyer has been notified.`,
+      carId: car._id.toString(),
+      forUserId: sellerId
+    });
+
+    // Emit deliveryUpdate to the auction room so payment page tracker updates in real-time
+    this.bidsGateway.sendNotification(`auction_${car._id.toString()}`, 'deliveryUpdate', {
+      status,
+      carId: car._id.toString(),
+      message
+    });
+
     return { message: `Status updated to ${status}`, status };
   }
 }
@@ -289,7 +490,9 @@ export class PaymentsController {
   @Post(':carId/pay') async pay(@Param('carId') carId: string, @Req() req: any) { return this.paymentsService.processPayment(carId, req.user._id); }
   @Get(':carId/details') async getDetails(@Param('carId') carId: string) { return this.paymentsService.getPaymentDetails(carId); }
   @UseGuards(JwtAuthGuard)
-  @Post(':carId/shipping') async updateShipping(@Param('carId') carId: string, @Body() body: any, @Req() req: any) { return this.paymentsService.updateShippingStatus(carId, req.user._id, body.status); }
+  @Post(':carId/shipping') async updateShippingPost(@Param('carId') carId: string, @Body() body: any, @Req() req: any) { return this.paymentsService.updateShippingStatus(carId, req.user._id, body.status); }
+  @UseGuards(JwtAuthGuard)
+  @Patch(':carId/status') async updateShippingPatch(@Param('carId') carId: string, @Body() body: any, @Req() req: any) { return this.paymentsService.updateShippingStatus(carId, req.user._id, body.status); }
 }
 
 // ==========================================
@@ -332,7 +535,7 @@ class ProfileModule {}
     EventEmitterModule.forRoot(),
     MongooseModule.forRootAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (cs: ConfigService) => ({ uri: cs.get<string>('MONGO_URI') }) }),
     AuthModule, BidsModule, PaymentsModule, ProfileModule, CloudinaryModule,
-    MongooseModule.forFeature([{ name: 'Car', schema: CarSchema }]),
+    MongooseModule.forFeature([{ name: 'Car', schema: CarSchema }, { name: 'Bid', schema: BidSchema }]),
   ],
   controllers: [AuctionController],
   providers: [AuctionService],
