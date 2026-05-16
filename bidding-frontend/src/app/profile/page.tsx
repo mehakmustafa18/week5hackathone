@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Edit, Star } from 'lucide-react';
@@ -8,7 +8,8 @@ import styles from './Profile.module.css';
 import api from '@/lib/api';
 import { useWishlist } from '@/hooks/useWishlist';
 
-export default function ProfilePage() {
+function ProfileContent() {
+
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState('My Bids');
   
@@ -227,3 +228,12 @@ export default function ProfilePage() {
     </>
   );
 }
+
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProfileContent />
+    </Suspense>
+  );
+}
+

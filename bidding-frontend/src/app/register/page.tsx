@@ -4,7 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { EyeOff } from 'lucide-react';
 import styles from '../Auth.module.css';
-import api from '@/lib/api';
+import api, { getBaseURL } from '@/lib/api';
+
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -19,8 +20,9 @@ export default function RegisterPage() {
    const [success, setSuccess] = useState<boolean>(false);
  
    const handleSocialLogin = (provider: string) => {
-     window.location.href = `http://localhost:3000/auth/${provider}`;
+     window.location.href = `${getBaseURL()}/auth/${provider}`;
    };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

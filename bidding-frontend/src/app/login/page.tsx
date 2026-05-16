@@ -1,13 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { EyeOff } from 'lucide-react';
 import styles from '../Auth.module.css';
-import api from '@/lib/api';
+import api, { getBaseURL } from '@/lib/api';
 
-export default function LoginPage() {
+function LoginContent() {
+
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -32,8 +35,9 @@ export default function LoginPage() {
    }, [searchParams]);
  
    const handleSocialLogin = (provider: string) => {
-     window.location.href = `http://localhost:3000/auth/${provider}`;
+     window.location.href = `${getBaseURL()}/auth/${provider}`;
    };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,3 +136,12 @@ export default function LoginPage() {
     </>
   );
 }
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginContent />
+    </Suspense>
+  );
+}
+

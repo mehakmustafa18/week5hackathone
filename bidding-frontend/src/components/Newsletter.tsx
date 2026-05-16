@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import styles from './Newsletter.module.css';
 import { Send } from 'lucide-react';
+import api from '@/lib/api';
+
 
 export default function Newsletter() {
   const [email, setEmail] = useState('');
@@ -12,12 +14,9 @@ export default function Newsletter() {
     e.preventDefault();
     if (email) {
       try {
-        const res = await fetch('http://localhost:3000/contact/subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
-        if (res.ok) {
+        const res = await api.post('/contact/subscribe', { email });
+        if (res.status === 200 || res.status === 201) {
+
           setSubscribed(true);
           setEmail('');
         }
