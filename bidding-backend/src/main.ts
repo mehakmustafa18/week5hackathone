@@ -1,9 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-<<<<<<< HEAD
-import { Module, Injectable, BadRequestException, ConflictException, UnauthorizedException, ForbiddenException, Controller, Get, Post, Patch, Body, Param, Query, UseGuards, Req, UseInterceptors, UploadedFiles, CanActivate, ExecutionContext } from '@nestjs/common';
-=======
 import { Module, Injectable, BadRequestException, ConflictException, UnauthorizedException, ForbiddenException, Controller, Get, Post, Patch, Body, Param, Query, UseGuards, Req, Res, UseInterceptors, UploadedFiles, CanActivate, ExecutionContext } from '@nestjs/common';
->>>>>>> master
 import { MongooseModule, InjectModel, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EventEmitterModule, EventEmitter2, OnEvent } from '@nestjs/event-emitter';
@@ -18,13 +14,9 @@ import 'multer';
 import * as bcrypt from 'bcrypt';
 import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from 'cloudinary';
 import * as streamifier from 'streamifier';
-<<<<<<< HEAD
-=======
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as GithubStrategy } from 'passport-github2';
 import axios from 'axios';
-
->>>>>>> master
 
 // ==========================================
 // 1. SCHEMAS
@@ -38,15 +30,10 @@ export class User extends Document {
   @Prop() username: string;
   @Prop() phone: string;
   @Prop() profilePicture: string;
-<<<<<<< HEAD
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Car' }], default: [] }) wishlist: Types.ObjectId[];
-}
-=======
    @Prop({ type: [{ type: Types.ObjectId, ref: 'Car' }], default: [] }) wishlist: Types.ObjectId[];
    @Prop() googleId?: string;
    @Prop() githubId?: string;
  }
->>>>>>> master
 export const UserSchema = SchemaFactory.createForClass(User);
 
 @Schema({ timestamps: true })
@@ -74,8 +61,6 @@ export class Bid extends Document {
 }
 export const BidSchema = SchemaFactory.createForClass(Bid);
 
-<<<<<<< HEAD
-=======
 @Schema({ timestamps: true })
 export class ContactRequest extends Document {
   @Prop({ required: true }) name: string;
@@ -91,7 +76,6 @@ export class NewsletterSubscription extends Document {
 }
 export const NewsletterSubscriptionSchema = SchemaFactory.createForClass(NewsletterSubscription);
 
->>>>>>> master
 // ==========================================
 // 2. SERVICES (BASE)
 // ==========================================
@@ -118,14 +102,6 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
     return await new this.userModel({ ...userData, password: hashedPassword }).save();
   }
-<<<<<<< HEAD
-  async login(loginData: any) {
-    const user = await this.userModel.findOne({ email: loginData.email });
-    if (!user || !(await bcrypt.compare(loginData.password, user.password))) throw new UnauthorizedException('Invalid credentials');
-    return { access_token: this.jwtService.sign({ email: user.email, sub: user._id }), user: { id: user._id, email: user.email, name: user.name } };
-  }
-}
-=======
    async login(loginData: any) {
      const user = await this.userModel.findOne({ email: loginData.email });
      if (!user || !(await bcrypt.compare(loginData.password, user.password))) throw new UnauthorizedException('Invalid credentials');
@@ -152,7 +128,6 @@ export class AuthService {
      return { access_token: this.jwtService.sign({ email: user.email, sub: user._id }), user: { id: user._id, email: user.email, name: user.name } };
    }
  }
->>>>>>> master
 
 @Injectable()
 export class BidsService {
@@ -343,8 +318,6 @@ export class AuctionService {
     }
   }
 
-
-
   async createCar(carData: any, userId: string, files?: Array<Express.Multer.File>) {
     let imageUrls: string[] = [];
     if (files?.length) {
@@ -470,8 +443,6 @@ export class PaymentsService {
   }
 }
 
-<<<<<<< HEAD
-=======
 @Injectable()
 export class ContactService {
   constructor(
@@ -543,7 +514,6 @@ export class ContactService {
   }
 }
 
->>>>>>> master
 // ==========================================
 // 5. GUARDS & STRATEGIES
 // ==========================================
@@ -575,25 +545,6 @@ export class WsJwtAuthGuard implements CanActivate {
       const client: Socket = context.switchToWs().getClient<Socket>();
       const authToken = client.handshake.auth?.token || client.handshake.headers?.authorization?.split(' ')[1];
       if (!authToken) throw new WsException('Unauthorized');
-<<<<<<< HEAD
-      const payload = await this.jwtService.verifyAsync(authToken);
-      context.switchToHttp().getRequest().user = payload;
-      return true;
-    } catch (err) { throw new WsException('Unauthorized'); }
-  }
-}
-
-// ==========================================
-// 6. CONTROLLERS
-// ==========================================
-
-@Controller('auth')
-export class AuthController {
-  constructor(private readonly authService: AuthService) {}
-  @Post('register') async register(@Body() userData: any) { return this.authService.register(userData); }
-  @Post('login') async login(@Body() loginData: any) { return this.authService.login(loginData); }
-}
-=======
        const payload = await this.jwtService.verifyAsync(authToken);
        context.switchToHttp().getRequest().user = payload;
        return true;
@@ -655,7 +606,6 @@ export class AuthController {
      res.redirect(`http://localhost:3001/login?token=${access_token}&user=${encodeURIComponent(JSON.stringify(user))}`);
    }
  }
->>>>>>> master
 
 @Controller('bids')
 export class BidsController {
@@ -698,8 +648,6 @@ export class PaymentsController {
   @Patch(':carId/status') async updateShippingPatch(@Param('carId') carId: string, @Body() body: any, @Req() req: any) { return this.paymentsService.updateShippingStatus(carId, req.user._id, body.status); }
 }
 
-<<<<<<< HEAD
-=======
 @Controller('contact')
 export class ContactController {
   constructor(private readonly contactService: ContactService) {}
@@ -707,7 +655,6 @@ export class ContactController {
   @Post('subscribe') async subscribe(@Body('email') email: string) { return this.contactService.subscribeNewsletter(email); }
 }
 
->>>>>>> master
 // ==========================================
 // 7. MODULES
 // ==========================================
@@ -717,15 +664,6 @@ const CloudinaryProvider = {
   useFactory: () => cloudinary.config({ cloud_name: process.env.CLOUDINARY_CLOUD_NAME, api_key: process.env.CLOUDINARY_API_KEY, api_secret: process.env.CLOUDINARY_API_SECRET }),
 };
 
-<<<<<<< HEAD
-@Module({
-  imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]), PassportModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (cs: ConfigService) => ({ secret: cs.get<string>('JWT_SECRET'), signOptions: { expiresIn: '7d' } }) })],
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService, JwtModule],
-})
-class AuthModule {}
-=======
  @Module({
    imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]), PassportModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (cs: ConfigService) => ({ secret: cs.get<string>('JWT_SECRET'), signOptions: { expiresIn: '7d' } }) })],
    controllers: [AuthController],
@@ -733,7 +671,6 @@ class AuthModule {}
    exports: [AuthService, JwtModule],
  })
  class AuthModule {}
->>>>>>> master
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'Bid', schema: BidSchema }, { name: 'Car', schema: CarSchema }]), AuthModule],
@@ -752,9 +689,7 @@ class PaymentsModule {}
 @Module({ imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }, { name: 'Car', schema: CarSchema }, { name: 'Bid', schema: BidSchema }])], controllers: [ProfileController], providers: [ProfileService] })
 class ProfileModule {}
 
-@Module({
-<<<<<<< HEAD
-=======
+  @Module({
   imports: [MongooseModule.forFeature([{ name: 'ContactRequest', schema: ContactRequestSchema }, { name: 'NewsletterSubscription', schema: NewsletterSubscriptionSchema }])],
   controllers: [ContactController],
   providers: [ContactService],
@@ -762,16 +697,11 @@ class ProfileModule {}
 class ContactModule {}
 
 @Module({
->>>>>>> master
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     EventEmitterModule.forRoot(),
     MongooseModule.forRootAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (cs: ConfigService) => ({ uri: cs.get<string>('MONGO_URI') }) }),
-<<<<<<< HEAD
-    AuthModule, BidsModule, PaymentsModule, ProfileModule, CloudinaryModule,
-=======
     AuthModule, BidsModule, PaymentsModule, ProfileModule, CloudinaryModule, ContactModule,
->>>>>>> master
     MongooseModule.forFeature([{ name: 'Car', schema: CarSchema }, { name: 'Bid', schema: BidSchema }]),
   ],
   controllers: [AuctionController],

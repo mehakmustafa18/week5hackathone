@@ -6,10 +6,7 @@ import { Phone, Mail, Star, Bell, ChevronDown, Menu, X, Car, User, LogOut } from
 import { usePathname, useRouter } from 'next/navigation';
 import styles from './Navbar.module.css';
 import { useSocket } from '@/hooks/useSocket';
-<<<<<<< HEAD
-=======
 import { useWishlist } from '@/hooks/useWishlist';
->>>>>>> master
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -19,10 +16,7 @@ export default function Navbar() {
   
   const [user, setUser] = useState<any>(null);
   const { notifications, markAllSeen, clearAll } = useSocket();
-<<<<<<< HEAD
-=======
   const { wishlist } = useWishlist();
->>>>>>> master
   const pathname = usePathname();
   const router = useRouter();
 
@@ -122,14 +116,10 @@ export default function Navbar() {
           {/* Right Icons + Buttons */}
           <div className={styles.rightActions}>
             <div className={styles.iconGrp}>
-<<<<<<< HEAD
-              <Star size={18} className={styles.iconBtn} />
-=======
               <div className={styles.iconWrapper} onClick={() => router.push(user ? '/profile?tab=wishlist' : '/login')} style={{cursor: 'pointer'}}>
                 <Star size={18} className={styles.iconBtn} fill={wishlist.length > 0 ? "#f5c518" : "none"} color={wishlist.length > 0 ? "#f5c518" : "currentColor"} />
                 {wishlist.length > 0 && <span className={styles.badge} style={{backgroundColor: '#f5c518', color: '#1a2e6e'}}>{wishlist.length}</span>}
               </div>
->>>>>>> master
               
               {/* Bell — All Notifications (bids, auction win/lost/ended, payment, status) */}
               <div className={styles.notifContainer}>

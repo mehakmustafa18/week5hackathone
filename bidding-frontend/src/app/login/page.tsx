@@ -1,16 +1,6 @@
 'use client';
 
-<<<<<<< HEAD
-import { useState } from 'react';
-import Link from 'next/link';
-import { EyeOff } from 'lucide-react';
-import styles from '../Auth.module.css';
-import api from '@/lib/api';
-
-export default function LoginPage() {
-=======
 import { useState, useEffect, Suspense } from 'react';
-
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { EyeOff } from 'lucide-react';
@@ -18,17 +8,10 @@ import styles from '../Auth.module.css';
 import api, { getBaseURL } from '@/lib/api';
 
 function LoginContent() {
-
-
->>>>>>> master
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-<<<<<<< HEAD
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
-=======
    const [error, setError] = useState<string | null>(null);
    const [success, setSuccess] = useState<boolean>(false);
    const searchParams = useSearchParams();
@@ -51,8 +34,6 @@ function LoginContent() {
    const handleSocialLogin = (provider: string) => {
      window.location.href = `${getBaseURL()}/auth/${provider}`;
    };
-
->>>>>>> master
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -136,20 +117,6 @@ function LoginContent() {
 
             <button type="submit" className={styles.submitBtn}>Log in</button>
 
-<<<<<<< HEAD
-            <div className={styles.socialDivider}>Or Register With</div>
-            <div className={styles.socialBtns}>
-              <button type="button" className={styles.socialBtn}>
-                 <img src="/assets/Group 34336.png" alt="Google" width="24"/>
-              </button>
-              <button type="button" className={styles.socialBtn}>
-                 <img src="/assets/Group 34337.png" alt="Facebook" width="18"/>
-              </button>
-              <button type="button" className={styles.socialBtn}>
-                 <img src="/assets/Group 34338.png" alt="Twitter" width="24"/>
-              </button>
-            </div>
-=======
              <div className={styles.socialDivider}>Or Register With</div>
              <div className={styles.socialBtns}>
                <button type="button" className={styles.socialBtn} onClick={() => handleSocialLogin('google')}>
@@ -159,15 +126,12 @@ function LoginContent() {
                   <img src="/assets/4.png" alt="GitHub" width="40"/>
                </button>
              </div>
->>>>>>> master
           </form>
         </div>
       </div>
     </>
   );
 }
-<<<<<<< HEAD
-=======
 
 export default function LoginPage() {
   return (
@@ -176,5 +140,3 @@ export default function LoginPage() {
     </Suspense>
   );
 }
-
->>>>>>> master
