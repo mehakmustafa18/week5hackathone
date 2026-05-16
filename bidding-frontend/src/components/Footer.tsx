@@ -79,7 +79,8 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className={styles.bottomBar}>
-        <Link href="#">Copyright 2022</Link> All Rights Reserved
+        <Link href="#">Copyright 2026</Link> All Rights Reserved
+
       </div>
     </footer>
   );
