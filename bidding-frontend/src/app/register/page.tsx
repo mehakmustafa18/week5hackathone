@@ -4,7 +4,12 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { EyeOff } from 'lucide-react';
 import styles from '../Auth.module.css';
+<<<<<<< HEAD
 import api from '@/lib/api';
+=======
+import api, { getBaseURL } from '@/lib/api';
+
+>>>>>>> master
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -15,8 +20,18 @@ export default function RegisterPage() {
     password: '',
     confirmPassword: ''
   });
+<<<<<<< HEAD
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+=======
+   const [error, setError] = useState<string | null>(null);
+   const [success, setSuccess] = useState<boolean>(false);
+ 
+   const handleSocialLogin = (provider: string) => {
+     window.location.href = `${getBaseURL()}/auth/${provider}`;
+   };
+
+>>>>>>> master
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,6 +148,7 @@ export default function RegisterPage() {
 
             <div className={styles.socialDivider}>Or Login With</div>
             <div className={styles.socialBtns}>
+<<<<<<< HEAD
               <button type="button" className={styles.socialBtn}>
                  <img src="/assets/Group 34336.png" alt="Google" width="24"/>
               </button>
@@ -141,6 +157,13 @@ export default function RegisterPage() {
               </button>
               <button type="button" className={styles.socialBtn}>
                  <img src="/assets/Group 34338.png" alt="Twitter" width="24"/>
+=======
+              <button type="button" className={styles.socialBtn} onClick={() => handleSocialLogin('google')}>
+                 <img src="/assets/Group 34336.png" alt="Google" width="24"/>
+              </button>
+              <button type="button" className={styles.socialBtn} onClick={() => handleSocialLogin('github')}>
+                 <img src="/assets/4.png" alt="GitHub" width="40"/>
+>>>>>>> master
               </button>
             </div>
 

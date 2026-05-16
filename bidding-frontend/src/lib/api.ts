@@ -1,6 +1,10 @@
 import axios from 'axios';
 
+<<<<<<< HEAD
 const getBaseURL = () => {
+=======
+export const getBaseURL = () => {
+>>>>>>> master
   if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
   if (typeof window !== 'undefined') {
     return `http://${window.location.hostname}:3000`;
@@ -8,6 +12,10 @@ const getBaseURL = () => {
   return 'http://localhost:3000';
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 // Create a centralized Axios instance connecting to the backend API on port 3000
 const api = axios.create({
   baseURL: getBaseURL(),

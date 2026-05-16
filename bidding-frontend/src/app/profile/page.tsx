@@ -1,14 +1,38 @@
 'use client';
 
+<<<<<<< HEAD
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+=======
+import { useState, useEffect, Suspense } from 'react';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+>>>>>>> master
 import { Edit, Star } from 'lucide-react';
 import styles from './Profile.module.css';
 import api from '@/lib/api';
 import { useWishlist } from '@/hooks/useWishlist';
 
+<<<<<<< HEAD
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState('My Bids');
+=======
+function ProfileContent() {
+
+  const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState('My Bids');
+  
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab) {
+      const validTabs = ['Personal Information', 'My Cars', 'My Bids', 'Wishlist'];
+      const normalizedTab = validTabs.find(t => t.toLowerCase() === tab.toLowerCase());
+      if (normalizedTab) {
+        setActiveTab(normalizedTab);
+      }
+    }
+  }, [searchParams]);
+>>>>>>> master
   const [user, setUser] = useState<any>(null);
   const [myCars, setMyCars] = useState<any[]>([]);
   const [myBids, setMyBids] = useState<any[]>([]);
@@ -214,3 +238,15 @@ export default function ProfilePage() {
     </>
   );
 }
+<<<<<<< HEAD
+=======
+
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProfileContent />
+    </Suspense>
+  );
+}
+
+>>>>>>> master

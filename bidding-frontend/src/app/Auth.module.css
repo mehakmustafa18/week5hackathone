@@ -272,6 +272,24 @@
   border-color: #3b4b89;
 }
 
+<<<<<<< HEAD
+=======
+.socialBtnPlain {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.socialBtnPlain:hover {
+  transform: scale(1.1);
+}
+
+>>>>>>> master
 @media (max-width: 640px) {
   .formGrid {
     grid-template-columns: 1fr;

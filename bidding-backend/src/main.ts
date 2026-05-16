@@ -1,5 +1,9 @@
 import { NestFactory } from '@nestjs/core';
+<<<<<<< HEAD
 import { Module, Injectable, BadRequestException, ConflictException, UnauthorizedException, ForbiddenException, Controller, Get, Post, Patch, Body, Param, Query, UseGuards, Req, UseInterceptors, UploadedFiles, CanActivate, ExecutionContext } from '@nestjs/common';
+=======
+import { Module, Injectable, BadRequestException, ConflictException, UnauthorizedException, ForbiddenException, Controller, Get, Post, Patch, Body, Param, Query, UseGuards, Req, Res, UseInterceptors, UploadedFiles, CanActivate, ExecutionContext } from '@nestjs/common';
+>>>>>>> master
 import { MongooseModule, InjectModel, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EventEmitterModule, EventEmitter2, OnEvent } from '@nestjs/event-emitter';
@@ -14,6 +18,13 @@ import 'multer';
 import * as bcrypt from 'bcrypt';
 import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from 'cloudinary';
 import * as streamifier from 'streamifier';
+<<<<<<< HEAD
+=======
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Strategy as GithubStrategy } from 'passport-github2';
+import axios from 'axios';
+
+>>>>>>> master
 
 // ==========================================
 // 1. SCHEMAS
@@ -27,8 +38,15 @@ export class User extends Document {
   @Prop() username: string;
   @Prop() phone: string;
   @Prop() profilePicture: string;
+<<<<<<< HEAD
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Car' }], default: [] }) wishlist: Types.ObjectId[];
 }
+=======
+   @Prop({ type: [{ type: Types.ObjectId, ref: 'Car' }], default: [] }) wishlist: Types.ObjectId[];
+   @Prop() googleId?: string;
+   @Prop() githubId?: string;
+ }
+>>>>>>> master
 export const UserSchema = SchemaFactory.createForClass(User);
 
 @Schema({ timestamps: true })
@@ -56,6 +74,24 @@ export class Bid extends Document {
 }
 export const BidSchema = SchemaFactory.createForClass(Bid);
 
+<<<<<<< HEAD
+=======
+@Schema({ timestamps: true })
+export class ContactRequest extends Document {
+  @Prop({ required: true }) name: string;
+  @Prop({ required: true }) email: string;
+  @Prop({ required: true }) subject: string;
+  @Prop({ required: true }) message: string;
+}
+export const ContactRequestSchema = SchemaFactory.createForClass(ContactRequest);
+
+@Schema({ timestamps: true })
+export class NewsletterSubscription extends Document {
+  @Prop({ required: true, unique: true }) email: string;
+}
+export const NewsletterSubscriptionSchema = SchemaFactory.createForClass(NewsletterSubscription);
+
+>>>>>>> master
 // ==========================================
 // 2. SERVICES (BASE)
 // ==========================================
@@ -82,12 +118,41 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
     return await new this.userModel({ ...userData, password: hashedPassword }).save();
   }
+<<<<<<< HEAD
   async login(loginData: any) {
     const user = await this.userModel.findOne({ email: loginData.email });
     if (!user || !(await bcrypt.compare(loginData.password, user.password))) throw new UnauthorizedException('Invalid credentials');
     return { access_token: this.jwtService.sign({ email: user.email, sub: user._id }), user: { id: user._id, email: user.email, name: user.name } };
   }
 }
+=======
+   async login(loginData: any) {
+     const user = await this.userModel.findOne({ email: loginData.email });
+     if (!user || !(await bcrypt.compare(loginData.password, user.password))) throw new UnauthorizedException('Invalid credentials');
+     return { access_token: this.jwtService.sign({ email: user.email, sub: user._id }), user: { id: user._id, email: user.email, name: user.name } };
+   }
+   async validateSocialUser(profile: any, provider: string) {
+     const { id, displayName, emails, photos } = profile;
+     const email = emails?.[0]?.value;
+     let user = await this.userModel.findOne({ [`${provider}Id`]: id });
+     if (!user && email) user = await this.userModel.findOne({ email });
+     if (!user) {
+       user = await new this.userModel({
+         email: email || `${id}@${provider}.com`,
+         name: displayName,
+         username: displayName?.split(' ')[0] + Math.floor(Math.random() * 1000),
+         [`${provider}Id`]: id,
+         profilePicture: photos?.[0]?.value,
+         password: await bcrypt.hash(Math.random().toString(36), 10), // Random password for social users
+       }).save();
+     } else if (!user[`${provider}Id`]) {
+       user[`${provider}Id`] = id;
+       await user.save();
+     }
+     return { access_token: this.jwtService.sign({ email: user.email, sub: user._id }), user: { id: user._id, email: user.email, name: user.name } };
+   }
+ }
+>>>>>>> master
 
 @Injectable()
 export class BidsService {
@@ -405,6 +470,80 @@ export class PaymentsService {
   }
 }
 
+<<<<<<< HEAD
+=======
+@Injectable()
+export class ContactService {
+  constructor(
+    @InjectModel('ContactRequest') private contactModel: Model<ContactRequest>,
+    @InjectModel('NewsletterSubscription') private newsletterModel: Model<NewsletterSubscription>,
+    private configService: ConfigService
+  ) {}
+
+  async create(data: any) {
+    console.log('--- NEW CONTACT FORM SUBMISSION (ADMIN NOTIFICATION) ---');
+    console.log(`From: ${data.name} (${data.email})`);
+    console.log(`Subject: ${data.subject}`);
+    console.log(`Message: ${data.message}`);
+    console.log('-------------------------------------------------------');
+    // Save to DB
+    return await new this.contactModel(data).save();
+  }
+
+  async subscribeNewsletter(email: string) {
+    // Check if already exists
+    const existing = await this.newsletterModel.findOne({ email });
+    if (existing) return { message: 'Already subscribed' };
+
+    const subscription = await new this.newsletterModel({ email }).save();
+
+    // Send Welcome Email via Brevo API
+    try {
+      const apiKey = this.configService.get('BREVO_API_KEY');
+      if (apiKey) {
+        await axios.post('https://api.brevo.com/v3/smtp/email', {
+          sender: { 
+            name: this.configService.get('BREVO_SENDER_NAME') || 'Car Deposit', 
+            email: this.configService.get('BREVO_SENDER_EMAIL') || 'no-reply@cardeposit.com' 
+          },
+          to: [{ email: email }],
+          subject: 'Welcome to Car Deposit Newsletter!',
+          htmlContent: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+              <h1 style="color: #1a2e6e; text-align: center;">Welcome to Car Deposit!</h1>
+              <p>Hi there,</p>
+              <p>Thank you for subscribing to our newsletter! We're excited to have you join our community of car enthusiasts.</p>
+              <p>With Car Deposit, you'll get:</p>
+              <ul style="color: #4a5568;">
+                <li>Early access to premium car auctions</li>
+                <li>Weekly market insights and price trends</li>
+                <li>Exclusive tips for buyers and sellers</li>
+              </ul>
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="http://localhost:3001/auctions" style="background-color: #f5c518; color: #1a2e6e; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;">Explore Auctions</a>
+              </div>
+              <p>Stay tuned for our next update!</p>
+              <p>Best regards,<br>The Car Deposit Team</p>
+              <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 20px 0;">
+              <p style="font-size: 12px; color: #94a3b8; text-align: center;">You are receiving this because you signed up for our newsletter at Car Deposit.</p>
+            </div>
+          `
+        }, {
+          headers: { 'api-key': apiKey, 'Content-Type': 'application/json' }
+        });
+        console.log(`Welcome email sent to ${email} via Brevo`);
+      } else {
+        console.warn('BREVO_API_KEY not found in environment variables');
+      }
+    } catch (error: any) {
+      console.error('Brevo API Error:', error.response?.data || error.message);
+    }
+
+    return { message: 'Subscribed successfully' };
+  }
+}
+
+>>>>>>> master
 // ==========================================
 // 5. GUARDS & STRATEGIES
 // ==========================================
@@ -436,6 +575,7 @@ export class WsJwtAuthGuard implements CanActivate {
       const client: Socket = context.switchToWs().getClient<Socket>();
       const authToken = client.handshake.auth?.token || client.handshake.headers?.authorization?.split(' ')[1];
       if (!authToken) throw new WsException('Unauthorized');
+<<<<<<< HEAD
       const payload = await this.jwtService.verifyAsync(authToken);
       context.switchToHttp().getRequest().user = payload;
       return true;
@@ -453,6 +593,69 @@ export class AuthController {
   @Post('register') async register(@Body() userData: any) { return this.authService.register(userData); }
   @Post('login') async login(@Body() loginData: any) { return this.authService.login(loginData); }
 }
+=======
+       const payload = await this.jwtService.verifyAsync(authToken);
+       context.switchToHttp().getRequest().user = payload;
+       return true;
+     } catch (err) { throw new WsException('Unauthorized'); }
+   }
+ }
+ 
+ @Injectable()
+ export class GoogleStrategyService extends PassportStrategy(GoogleStrategy, 'google') {
+   constructor(private configService: ConfigService, private authService: AuthService) {
+     super({
+       clientID: configService.get('GOOGLE_CLIENT_ID') || 'placeholder',
+       clientSecret: configService.get('GOOGLE_CLIENT_SECRET') || 'placeholder',
+       callbackURL: 'http://localhost:3000/auth/google/callback',
+       scope: ['email', 'profile'],
+     });
+   }
+   async validate(accessToken: string, refreshToken: string, profile: any, done: Function) {
+     const user = await this.authService.validateSocialUser(profile, 'google');
+     done(null, user);
+   }
+ }
+ 
+ @Injectable()
+ export class GithubStrategyService extends PassportStrategy(GithubStrategy, 'github') {
+   constructor(private configService: ConfigService, private authService: AuthService) {
+     super({
+       clientID: configService.get('GITHUB_CLIENT_ID') || 'placeholder',
+       clientSecret: configService.get('GITHUB_CLIENT_SECRET') || 'placeholder',
+       callbackURL: 'http://localhost:3000/auth/github/callback',
+       scope: ['user:email'],
+     });
+   }
+   async validate(accessToken: string, refreshToken: string, profile: any, done: Function) {
+     const user = await this.authService.validateSocialUser(profile, 'github');
+     done(null, user);
+   }
+ }
+ 
+ // ==========================================
+// 6. CONTROLLERS
+// ==========================================
+
+ @Controller('auth')
+ export class AuthController {
+   constructor(private readonly authService: AuthService) {}
+   @Post('register') async register(@Body() userData: any) { return this.authService.register(userData); }
+   @Post('login') async login(@Body() loginData: any) { return this.authService.login(loginData); }
+ 
+   @Get('google') @UseGuards(AuthGuard('google')) async googleAuth(@Req() req) {}
+   @Get('google/callback') @UseGuards(AuthGuard('google')) async googleAuthRedirect(@Req() req, @Res() res) {
+     const { access_token, user } = req.user;
+     res.redirect(`http://localhost:3001/login?token=${access_token}&user=${encodeURIComponent(JSON.stringify(user))}`);
+   }
+ 
+   @Get('github') @UseGuards(AuthGuard('github')) async githubAuth(@Req() req) {}
+   @Get('github/callback') @UseGuards(AuthGuard('github')) async githubAuthRedirect(@Req() req, @Res() res) {
+     const { access_token, user } = req.user;
+     res.redirect(`http://localhost:3001/login?token=${access_token}&user=${encodeURIComponent(JSON.stringify(user))}`);
+   }
+ }
+>>>>>>> master
 
 @Controller('bids')
 export class BidsController {
@@ -495,6 +698,16 @@ export class PaymentsController {
   @Patch(':carId/status') async updateShippingPatch(@Param('carId') carId: string, @Body() body: any, @Req() req: any) { return this.paymentsService.updateShippingStatus(carId, req.user._id, body.status); }
 }
 
+<<<<<<< HEAD
+=======
+@Controller('contact')
+export class ContactController {
+  constructor(private readonly contactService: ContactService) {}
+  @Post() async create(@Body() contactData: any) { return this.contactService.create(contactData); }
+  @Post('subscribe') async subscribe(@Body('email') email: string) { return this.contactService.subscribeNewsletter(email); }
+}
+
+>>>>>>> master
 // ==========================================
 // 7. MODULES
 // ==========================================
@@ -504,6 +717,7 @@ const CloudinaryProvider = {
   useFactory: () => cloudinary.config({ cloud_name: process.env.CLOUDINARY_CLOUD_NAME, api_key: process.env.CLOUDINARY_API_KEY, api_secret: process.env.CLOUDINARY_API_SECRET }),
 };
 
+<<<<<<< HEAD
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]), PassportModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (cs: ConfigService) => ({ secret: cs.get<string>('JWT_SECRET'), signOptions: { expiresIn: '7d' } }) })],
   controllers: [AuthController],
@@ -511,6 +725,15 @@ const CloudinaryProvider = {
   exports: [AuthService, JwtModule],
 })
 class AuthModule {}
+=======
+ @Module({
+   imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]), PassportModule, JwtModule.registerAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (cs: ConfigService) => ({ secret: cs.get<string>('JWT_SECRET'), signOptions: { expiresIn: '7d' } }) })],
+   controllers: [AuthController],
+   providers: [AuthService, JwtStrategy, GoogleStrategyService, GithubStrategyService],
+   exports: [AuthService, JwtModule],
+ })
+ class AuthModule {}
+>>>>>>> master
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'Bid', schema: BidSchema }, { name: 'Car', schema: CarSchema }]), AuthModule],
@@ -530,11 +753,25 @@ class PaymentsModule {}
 class ProfileModule {}
 
 @Module({
+<<<<<<< HEAD
+=======
+  imports: [MongooseModule.forFeature([{ name: 'ContactRequest', schema: ContactRequestSchema }, { name: 'NewsletterSubscription', schema: NewsletterSubscriptionSchema }])],
+  controllers: [ContactController],
+  providers: [ContactService],
+})
+class ContactModule {}
+
+@Module({
+>>>>>>> master
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     EventEmitterModule.forRoot(),
     MongooseModule.forRootAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: (cs: ConfigService) => ({ uri: cs.get<string>('MONGO_URI') }) }),
+<<<<<<< HEAD
     AuthModule, BidsModule, PaymentsModule, ProfileModule, CloudinaryModule,
+=======
+    AuthModule, BidsModule, PaymentsModule, ProfileModule, CloudinaryModule, ContactModule,
+>>>>>>> master
     MongooseModule.forFeature([{ name: 'Car', schema: CarSchema }, { name: 'Bid', schema: BidSchema }]),
   ],
   controllers: [AuctionController],
