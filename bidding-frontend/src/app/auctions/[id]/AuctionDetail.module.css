@@ -1,0 +1,464 @@
+.pageHeader {
+  background-color: #dbe4f4;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.pageTitleContainer {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.pageTitle {
+  color: #3b4b89;
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.titleUnderline {
+  height: 3px;
+  width: 120px;
+  background-color: #3b4b89;
+  margin: 0 auto;
+}
+
+.pageSubtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: #3b4b89;
+  background-color: rgba(255, 255, 255, 0.4);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.breadcrumb a {
+  color: #3b4b89;
+  text-decoration: none;
+}
+
+.breadcrumbSpan {
+  margin: 0 8px;
+  color: #6b7280;
+}
+
+.mainLayout {
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.carHeaderBar {
+  background-color: #3b4b89;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.carHeaderTitle {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.galleryArea {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  height: 480px;
+}
+
+.mainImageWrapper {
+  flex: 2;
+  position: relative;
+  background-color: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mainImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.liveTag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: #ef4444;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.thumbnailsArea {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+}
+
+.thumbnailWrapper {
+  background-color: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.thumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.statsStrip {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 24px 30px;
+  margin-bottom: 40px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+
+.statValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a2e6e;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.timerBoxes {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.timerBox {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  padding: 4px 6px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #1a2e6e;
+  border-radius: 2px;
+}
+
+/* Details Layout */
+.detailsLayout {
+  display: flex;
+  gap: 40px;
+}
+
+.leftColumn {
+  flex: 2;
+}
+
+.rightColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #3b4b89;
+  margin-bottom: 20px;
+}
+
+.descriptionText {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.boxHeader {
+  background-color: #3b4b89;
+  color: white;
+  padding: 14px 20px;
+  font-weight: 600;
+  font-size: 15px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.boxContent {
+  background-color: #f8fafc;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-top: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.bidderProfile {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.bidderAvatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.bidderInfoGrid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  row-gap: 16px;
+  column-gap: 40px;
+}
+
+.infoLabel {
+  font-size: 14px;
+  color: #3b4b89;
+  font-weight: 600;
+}
+
+.infoValue {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* Top Bidder Special Box */
+.topBidderSection {
+  margin-top: 40px;
+}
+
+.topBidderBox {
+  background-color: #f0f4ff;
+  border: 1px solid #dbeafe;
+}
+
+/* Bid Widget Refinements */
+.bidWidget {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.bidHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.bidLabel {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.bidVal {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a2e6e;
+}
+
+.bidWidgetSlider {
+  width: 100%;
+  height: 10px;
+  background-color: #f1f5f9;
+  border-radius: 5px;
+  margin: 20px 0;
+  position: relative;
+}
+
+.bidWidgetSliderFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: #3b4b89;
+  border-radius: 5px;
+}
+
+.bidWidgetSliderThumb {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 4px solid #f5c518;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+}
+
+.bidInputGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.bidInputLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a2e6e;
+}
+
+.bidInputControl {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  background-color: #f8fafc;
+}
+
+.bidInputBtn {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #3b4b89;
+  display: flex;
+  align-items: center;
+}
+
+.bidInputField {
+  width: 100px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a2e6e;
+  outline: none;
+}
+
+.bidSubmitBtn {
+  background-color: #3b4b89;
+  color: white;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.bidSubmitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Bidders List Widget */
+.biddersListHeader {
+  background-color: #3b4b89;
+  color: white;
+  padding: 15px 20px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.biddersList {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-top: none;
+}
+
+.bidderRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.bidderRowLabel {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.bidderRowValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: #3b4b89;
+}
+
+@media (max-width: 1024px) {
+  .detailsLayout {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .galleryArea {
+    flex-direction: column;
+    height: auto;
+  }
+  .mainImageWrapper {
+    height: 350px;
+  }
+  .thumbnailsArea {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    height: 120px;
+  }
+  .statsStrip {
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 32px;
+  }
+  .carHeaderBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .mainImageWrapper {
+    height: 250px;
+  }
+  .bidderProfile {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .bidderInfoGrid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}

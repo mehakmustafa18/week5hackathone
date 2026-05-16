@@ -1,0 +1,418 @@
+.header {
+  width: 100%;
+}
+
+.topBar {
+  background-color: #1a2e6e;
+  color: white;
+  font-size: 13px;
+}
+
+.topBarInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 30px;
+}
+
+.contactInfo, .emailInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mainNav {
+  background-color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 50;
+}
+
+.mainNavInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 30px;
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logoIcon {
+  width: 40px;
+  height: 40px;
+  background-color: #f5c518;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a2e6e;
+}
+
+.logoText {
+  color: #1a2e6e;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.logoHighlight {
+  color: #f5c518;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #4a5568;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  padding-bottom: 4px;
+}
+
+.navLink:hover {
+  color: #1a2e6e;
+}
+
+.activeLink {
+  color: #1a2e6e;
+  font-weight: 600;
+  border-bottom: 2px solid #f5c518;
+}
+
+.rightActions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.authActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profileContainer {
+  position: relative;
+}
+
+.profileBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 20px;
+  transition: background-color 0.2s;
+  color: #1a2e6e;
+}
+
+.profileBtn:hover {
+  background-color: #f1f5f9;
+}
+
+.avatarCircle {
+  width: 35px;
+  height: 35px;
+  background-color: #1a2e6e;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  width: 220px;
+  z-index: 1000;
+  padding: 8px 0;
+  animation: slideIn 0.2s ease-out;
+}
+
+.iconGrp {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #6b7280;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.userInfo {
+  padding: 12px 16px;
+}
+
+.userName {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #f1f5f9;
+  margin: 10px 0;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  color: #475569;
+  text-decoration: none;
+  font-size: 14px;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdownItem:hover {
+  background-color: #f8fafc;
+  color: #1a2e6e;
+}
+
+.mobileUserInfo {
+  padding: 15px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 10px;
+  color: #1e293b;
+  font-weight: 600;
+  text-align: center;
+}
+
+.notifContainer {
+  position: relative;
+}
+
+.notifDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  width: 280px;
+  z-index: 1000;
+  padding: 0;
+  animation: slideIn 0.2s ease-out;
+}
+
+.dropdownHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  background-color: #f8fafc;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.dropdownHeader span {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.clearBtn {
+  background: none;
+  border: none;
+  color: #1a2e6e;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.notifList {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notifItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s;
+}
+
+.notifItem:last-child {
+  border-bottom: none;
+}
+
+.notifItem p {
+  font-size: 13px;
+  color: #475569;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.notifPoint {
+  width: 8px;
+  height: 8px;
+  background-color: #ef4444;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+  opacity: 0;
+}
+
+.unseen {
+  background-color: #f0f9ff;
+}
+
+.unseen .notifPoint {
+  opacity: 1;
+}
+
+.emptyText {
+  padding: 20px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.iconWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.iconBtn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.3s ease;
+}
+
+.iconBtn:hover {
+  color: #1a2e6e;
+}
+
+.signInBtn {
+  border: 1px solid #1a2e6e;
+  color: #1a2e6e;
+  padding: 6px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.signInBtn:hover {
+  background-color: #1a2e6e;
+  color: white;
+}
+
+.registerBtn {
+  background-color: #1a2e6e;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  border: 1px solid #1a2e6e;
+}
+
+.registerBtn:hover {
+  background-color: #132059;
+}
+
+.mobileToggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #1a2e6e;
+  cursor: pointer;
+}
+
+.mobileMenu {
+  display: none;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 40;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.mobileMenu.open {
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .navLinks {
+    display: none;
+  }
+  .rightActions {
+    display: none;
+  }
+  .mobileToggle {
+    display: block;
+  }
+  .topBarInner, .mainNavInner {
+    padding: 10px 20px;
+  }
+}

@@ -1,0 +1,362 @@
+.pageHeader {
+  background-color: #dbe4f4;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.pageTitleContainer {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.pageTitle {
+  color: #3b4b89;
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.titleUnderline {
+  height: 3px;
+  width: 100px;
+  background-color: #3b4b89;
+  margin: 0 auto;
+}
+
+.pageSubtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: #3b4b89;
+  background-color: rgba(255, 255, 255, 0.4);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.breadcrumb a {
+  color: #3b4b89;
+  text-decoration: none;
+}
+
+.breadcrumbSpan {
+  margin: 0 8px;
+  color: #6b7280;
+}
+
+.mainLayout {
+  margin: 40px auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 30px;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.sidebarMenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 16px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+  text-align: left;
+  cursor: pointer;
+  border-bottom: none;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.menuItem:last-child {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.menuItem.active {
+  color: #1a2e6e;
+  font-weight: 600;
+  background-color: #f8fafc;
+}
+
+.menuItem.active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -1px;
+  height: 100%;
+  width: 3px;
+  background-color: #f5c518;
+}
+
+/* Content Area */
+.contentArea {
+  flex: 1;
+}
+
+.infoBlock {
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  background-color: #f8fafc;
+  overflow: hidden;
+}
+
+.blockHeader {
+  background-color: #3b4b89;
+  color: white;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.editIcon {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.editIcon:hover {
+  opacity: 1;
+}
+
+.blockContent {
+  padding: 24px;
+}
+
+.personalInfoGrid {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.detailsGrid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 20px;
+  column-gap: 40px;
+}
+
+.detailItem {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.detailLabel {
+  width: 120px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a2e6e;
+}
+
+.detailValue {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.tabTitleArea {
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 30px;
+}
+
+.tabTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a2e6e;
+  display: inline-block;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f5c518;
+}
+
+/* Grids for My Cars, My Bids, Wishlist */
+.grid3Col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.carCard {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.carCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.trendingTag {
+  background-color: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 2px;
+}
+
+.carCardTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a2e6e;
+  text-align: center;
+  flex: 1;
+}
+
+.starIconBtn {
+  color: #9ca3af;
+  background-color: #f3f4f6;
+  border-radius: 50%;
+  padding: 4px;
+  display: flex;
+}
+
+.carCardImage {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
+.carCardStatsArea {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.carCardStats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardStat {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardStatValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a2e6e;
+}
+
+.cardStatLabel {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.bidBoxBlock {
+  display: flex;
+  gap: 10px;
+}
+
+.bidBox {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.bidBoxGrey { background-color: #f8fafc; }
+.bidBoxRed { background-color: #fee2e2; }
+.bidBoxGreen { background-color: #dcfce3; }
+
+.bidBoxValue {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.bidBoxLabel {
+  font-size: 10px;
+  color: #6b7280;
+}
+
+.timerBoxes {
+  display: flex;
+  gap: 4px;
+}
+
+.timerBox {
+  border: 1px solid #e2e8f0;
+  font-size: 10px;
+  padding: 2px;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.carCardBtn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
+
+.btnDark { background-color: #3b4b89; color: white; transition: background-color 0.3s; }
+.btnDark:hover { background-color: #2a3666; }
+.btnSold { background-color: #f3f4f6; color: #9ca3af; cursor: not-allowed; }
+.btnOutline { border: 1px solid #3b4b89; color: #3b4b89; background: white; transition: all 0.3s; }
+.btnOutline:hover { background-color: #3b4b89; color: white; }
+
+.wishlistDesc {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 6px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.viewDetails {
+  color: #3b4b89;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .mainLayout { flex-direction: column; }
+  .sidebar { width: 100%; }
+  .personalInfoGrid { flex-direction: column; text-align: center; }
+  .detailItem { flex-direction: column; text-align: left; align-items: flex-start; gap: 4px; }
+  .detailsGrid { grid-template-columns: 1fr; }
+  .grid3Col { grid-template-columns: 1fr; }
+}
+@media (max-width: 1024px) and (min-width: 769px) {
+  .grid3Col { grid-template-columns: 1fr 1fr; }
+}

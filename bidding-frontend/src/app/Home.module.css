@@ -1,0 +1,301 @@
+.heroSection {
+  position: relative;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  /* Dummy background */
+  background: linear-gradient(rgba(26, 46, 110, 0.4), rgba(26, 46, 110, 0.4)), url('/assets/home-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 0 40px;
+}
+
+.heroContent {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.welcomeBadge {
+  display: inline-block;
+  background-color: #e6ebf5;
+  color: #1a2e6e;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.heroTitle {
+  color: white;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.heroDesc {
+  color: #e2e8f0;
+  font-size: 15px;
+  max-width: 450px;
+  line-height: 1.6;
+  margin-bottom: 60px;
+}
+
+.searchBar {
+  background-color: white;
+  padding: 10px 10px 10px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  max-width: 800px;
+  gap: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.searchGroup {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+}
+
+.searchLabel {
+  font-size: 12px;
+  color: #a0aec0;
+  margin-bottom: 4px;
+}
+
+.searchInput {
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 4px 0;
+  font-size: 14px;
+  color: #1a2e6e;
+  font-weight: 600;
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  outline: none;
+}
+
+.searchIconWrapper {
+  position: absolute;
+  right: 0;
+  bottom: 6px;
+  color: #a0aec0;
+  pointer-events: none;
+}
+
+.searchBtn {
+  background-color: #3b4b89;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 40px;
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.searchBtn:hover {
+  background-color: #2a3666;
+}
+
+/* Live Auction Section */
+.auctionSection {
+  background-color: #3b4b89;
+  padding: 60px 40px;
+}
+
+.auctionContainer {
+  margin: 0 auto;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  color: white;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.sectionDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.dividerLine {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+  width: 80px;
+}
+
+.dividerDiamond {
+  width: 12px;
+  height: 12px;
+  background-color: #f5c518;
+  transform: rotate(45deg);
+}
+
+.tabsArea {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 30px;
+}
+
+.activeTab {
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-block;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f5c518;
+}
+
+/* Cards Grid */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1200px) {
+  .cardsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+  .searchBar {
+    flex-direction: column;
+    padding: 20px;
+  }
+  .searchBtn {
+    width: 100%;
+    margin-top: 10px;
+    justify-content: center;
+  }
+}
+
+.carCard {
+  background-color: white;
+  padding: 16px;
+  border-radius: 4px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.trendingTag {
+  background-color: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.carTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a2e6e;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+.starIcon {
+  color: #3b4b89;
+  cursor: pointer;
+}
+
+.imageArea {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 140px;
+  text-decoration: none;
+}
+
+.carImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.cardDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.detailCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.detailCol:last-child {
+  text-align: right;
+}
+
+.detailValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a2e6e;
+  margin-bottom: 2px;
+}
+
+.detailLabel {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.submitBtn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-color: #3b4b89;
+  color: white;
+  padding: 12px 0;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.submitBtn:hover {
+  background-color: #2a3666;
+}

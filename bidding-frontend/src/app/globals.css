@@ -1,0 +1,45 @@
+/* Vanilla CSS Base */
+
+:root {
+  --navy: #1a2e6e;
+  --navy-dark: #132059;
+  --navy-light: #233580;
+  --gold: #f5c518;
+  --gold-hover: #e0b010;
+  --light-bg: #dde6f5;
+  --text-dark: #1a1a2e;
+  --text-gray: #6b7280;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-dark);
+  background: #f1f5f9; /* Subtle background for the boxed layout area */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global Boxed Layout Wrapper */
+.site-wrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.site-container {
+  width: 100%;
+}
