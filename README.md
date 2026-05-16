@@ -3,7 +3,7 @@
 Car Deposit is a full-stack premium car auction application built with **Next.js**, **NestJS**, and **MongoDB**. It features real-time bidding, social authentication, and a clean, modern UI.
 
 ## 🚀 Live Demo
-- **Frontend**: [https://your-frontend-link.vercel.app](https://your-frontend-link.vercel.app)
+- **Frontend**: [https://week5hackathone.vercel.app](https://week5hackathone.vercel.app)
 - **Backend**: [https://week5hackathone.onrender.com](https://week5hackathone.onrender.com)
 
 ## 🛠 Tech Stack
