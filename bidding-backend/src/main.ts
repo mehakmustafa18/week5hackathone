@@ -491,7 +491,8 @@ export class ContactService {
                 <li>Exclusive tips for buyers and sellers</li>
               </ul>
               <div style="text-align: center; margin: 30px 0;">
-                <a href="http://localhost:3001/auctions" style="background-color: #f5c518; color: #1a2e6e; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;">Explore Auctions</a>
+                <a href="${this.configService.get('FRONTEND_URL') || 'http://localhost:3001'}/auctions" style="background-color: #f5c518; color: #1a2e6e; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block;">Explore Auctions</a>
+
               </div>
               <p>Stay tuned for our next update!</p>
               <p>Best regards,<br>The Car Deposit Team</p>
@@ -558,7 +559,8 @@ export class WsJwtAuthGuard implements CanActivate {
      super({
        clientID: configService.get('GOOGLE_CLIENT_ID') || 'placeholder',
        clientSecret: configService.get('GOOGLE_CLIENT_SECRET') || 'placeholder',
-       callbackURL: 'http://localhost:3000/auth/google/callback',
+       callbackURL: `${configService.get('BACKEND_URL') || 'http://localhost:3000'}/auth/google/callback`,
+
        scope: ['email', 'profile'],
      });
    }
@@ -574,7 +576,8 @@ export class WsJwtAuthGuard implements CanActivate {
      super({
        clientID: configService.get('GITHUB_CLIENT_ID') || 'placeholder',
        clientSecret: configService.get('GITHUB_CLIENT_SECRET') || 'placeholder',
-       callbackURL: 'http://localhost:3000/auth/github/callback',
+       callbackURL: `${configService.get('BACKEND_URL') || 'http://localhost:3000'}/auth/github/callback`,
+
        scope: ['user:email'],
      });
    }
@@ -590,22 +593,23 @@ export class WsJwtAuthGuard implements CanActivate {
 
  @Controller('auth')
  export class AuthController {
-   constructor(private readonly authService: AuthService) {}
+   constructor(private readonly authService: AuthService, private readonly configService: ConfigService) {}
    @Post('register') async register(@Body() userData: any) { return this.authService.register(userData); }
    @Post('login') async login(@Body() loginData: any) { return this.authService.login(loginData); }
  
    @Get('google') @UseGuards(AuthGuard('google')) async googleAuth(@Req() req) {}
    @Get('google/callback') @UseGuards(AuthGuard('google')) async googleAuthRedirect(@Req() req, @Res() res) {
      const { access_token, user } = req.user;
-     res.redirect(`http://localhost:3001/login?token=${access_token}&user=${encodeURIComponent(JSON.stringify(user))}`);
+     res.redirect(`${this.configService.get('FRONTEND_URL') || 'http://localhost:3001'}/login?token=${access_token}&user=${encodeURIComponent(JSON.stringify(user))}`);
    }
  
    @Get('github') @UseGuards(AuthGuard('github')) async githubAuth(@Req() req) {}
    @Get('github/callback') @UseGuards(AuthGuard('github')) async githubAuthRedirect(@Req() req, @Res() res) {
      const { access_token, user } = req.user;
-     res.redirect(`http://localhost:3001/login?token=${access_token}&user=${encodeURIComponent(JSON.stringify(user))}`);
+     res.redirect(`${this.configService.get('FRONTEND_URL') || 'http://localhost:3001'}/login?token=${access_token}&user=${encodeURIComponent(JSON.stringify(user))}`);
    }
  }
+
 
 @Controller('bids')
 export class BidsController {
