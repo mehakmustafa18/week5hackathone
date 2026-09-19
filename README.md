@@ -53,5 +53,4 @@ Car Deposit is a full-stack premium car auction application built with **Next.js
 - **Admin Notifications**: Automated emails for newsletter subscriptions and contact forms.
 - **Responsive Design**: Premium UI optimized for all devices.
 
-## 📄 License
-This project is licensed under the MIT License.
+
