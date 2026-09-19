@@ -5,7 +5,8 @@ Car Deposit is a full-stack premium car auction application built with **Next.js
 ## 🚀 Live Demo
 - **Frontend**: [https://week5hackathone.vercel.app](https://week5hackathone.vercel.app)
 - **Backend**: [https://week5hackathone.onrender.com](https://week5hackathone.onrender.com)
-📂 **Final Year Project Report:** [Download Full PDF Report](https://github.com)
+
+📂 **Final Year Project Report:** [Download Full PDF Report](https://github.com/mehakmustafa18/week5hackathone/raw/main/Final%20Year%20Project%20Report%20(2022-AG-8073).pdf)
 
 
 ## 🛠 Tech Stack
